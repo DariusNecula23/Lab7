@@ -48,6 +48,25 @@ public class XKCDCartoonDisplayerAsyncTask extends AsyncTask<String, Void, XKCDC
         // - create an instance of a HttpGet object
         // - create an instance of a ResponseHandler object
         // - execute the request, thus obtaining the web page source code
+        HttpClient httpClient = new DefaultHttpClient();
+        HttpGet httpGet = new HttpGet(Constants.GET_WEB_SERVICE_ADDRESS
+                + "?" + Constants.OPERATION_ATTRIBUTE + "=" + operation
+                + "&" + Constants.OPERATOR1_ATTRIBUTE + "=" + operator1
+                + "&" + Constants.OPERATOR2_ATTRIBUTE + "=" + operator2);
+        ResponseHandler<String> responseHandlerGet = new BasicResponseHandler();
+        try {
+            return httpClient.execute(httpGet, responseHandlerGet);
+        } catch (ClientProtocolException clientProtocolException) {
+            Log.e(Constants.TAG, clientProtocolException.getMessage());
+            if (Constants.DEBUG) {
+                clientProtocolException.printStackTrace();
+            }
+        } catch (IOException ioException) {
+            Log.e(Constants.TAG, ioException.getMessage());
+            if (Constants.DEBUG) {
+                ioException.printStackTrace();
+            }
+        }
 
         // 2. parse the web page source code
         // - cartoon title: get the tag whose id equals "ctitle"
